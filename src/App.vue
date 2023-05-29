@@ -10,7 +10,7 @@
 import MyHeader from './components/MyHeader.vue'
 import MyList from './components/MyList.vue'
 import MyFooter from './components/MyFooter.vue'
-import { nanoid } from 'nanoid'
+// import { nanoid } from 'nanoid'
 
 export default {
   name: 'App',
@@ -21,12 +21,21 @@ export default {
   },
   data() {
     return {
-      todos: [
-        { id: nanoid(), title: '抽烟', done: true },
-        { id: nanoid(), title: '喝酒', done: false },
-        { id: nanoid(), title: '开车', done: true },
-      ],
+      todos: JSON.parse(localStorage.getItem('todos')) || [],
+      // [
+      //   { id: nanoid(), title: '抽烟', done: true },
+      //   { id: nanoid(), title: '喝酒', done: false },
+      //   { id: nanoid(), title: '开车', done: true },
+      // ],
     }
+  },
+  watch: {
+    todos: {
+      deep:true,
+      handler(value){
+        localStorage.setItem('todos', JSON.stringify(value));
+      },
+    },
   },
   methods: {
     // 增加一条todo
