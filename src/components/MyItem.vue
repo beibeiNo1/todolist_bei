@@ -9,13 +9,17 @@
 </template>
 
 <script>
+import PubSub from 'pubsub-js';
+
 export default {
   name: 'MyItem',
   props: ['todo'],
   methods: {
     handleDelete(id){
       if(confirm('确定删除吗？')){
-        this.$bus.$emit('deleteTodo',id)
+        // this.deleteTodo(id) // (父传过来的)函数名
+        // this.$bus.$emit('deleteTodo',id) // 全局事件总线(名)
+        PubSub.publish('deleteTodo',id)  // (发布的)消息名
       }
     },
     checkItem(id){
