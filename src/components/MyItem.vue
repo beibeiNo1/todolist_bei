@@ -2,9 +2,11 @@
   <li>
       <label>
       <input type="checkbox" :checked="todo.done" @change="checkItem(todo.id)"/>
-      <span>{{ todo.title }}</span>
+      <span v-show="!todo.isEdit">{{ todo.title }}</span>
+      <input v-show="todo.isEdit" ref="inputTitle" type="text" :value="todo.title" @blur="handlerBlur(todo, $event)">
       </label>
       <button class="btn btn-danger" @click="handleDelete(todo.id)">删除</button>
+      <button class="btn btn-edit" @click="handleEdit(todo)">编辑</button>
   </li>
 </template>
 
@@ -21,6 +23,25 @@ export default {
         // this.$bus.$emit('deleteTodo',id) // 全局事件总线(名)
         PubSub.publish('deleteTodo',id)  // (发布的)消息名
       }
+    },
+    handleEdit(todo){
+      if(todo.hasOwnProperty.call(todo, 'isEdit')){
+        todo.isEdit = true
+      }else{
+        this.$set(todo,'isEdit',true)
+      }
+      this.$nextTick(()=>{
+        this.$refs.inputTitle.focus()
+      })
+    },
+    handlerBlur(todo, e){
+      console.log(e);
+      todo.isEdit = false
+      if(!e.target.value.trim()){
+        alert('输入内容不能为空')
+        return 
+      }
+      this.$bus.$emit('updateTodo',todo.id, e.target.value)
     },
     checkItem(id){
       this.$bus.$emit('checkTodo',id);
