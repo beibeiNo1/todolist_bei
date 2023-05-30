@@ -15,7 +15,8 @@
 
 export default {
   name: 'MyFooter',
-  props: ['todos', 'checkAllTodo','clearAllTodo'],
+  // props: ['todos', 'checkAllTodo','clearAllTodo'],
+  props: ['todos',],
   computed: {
     doneTodo(){
       return this.todos.reduce((pre,todo)=>pre+(todo.done?1:0),0)
@@ -31,7 +32,7 @@ export default {
         return this.doneTodo === this.total && this.total > 0
       },
       set(value){
-          this.checkAllTodo(value)
+          this.$emit('checkAllTodo',value)
           return value
       },
       
@@ -40,11 +41,11 @@ export default {
   methods: {
     // checkAll(e){
     //   console.log(e.target.checked);
-    //   this.checkAllTodo(e.target.checked)
+    //   this.$emit('checkAllTodo',e.target.checked)
     // },
     clearAll(){
       if(confirm('确定删除吗？')){
-        this.clearAllTodo()
+        this.$emit('clearAllTodo')
       }
     },
   },

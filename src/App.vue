@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <MyHeader :addTodo="addTodo"/>
+    <MyHeader @addTodo="addTodo"/>
     <MyList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo"/>
-    <MyFooter :todos="todos" :checkAllTodo="checkAllTodo" :clearAllTodo="clearAllTodo"/>
+    <MyFooter :todos="todos" @checkAllTodo="checkAllTodo" @clearAllTodo="clearAllTodo"/>
   </div>
 </template>
 
