@@ -1,7 +1,7 @@
 <template>
   <li>
       <label>
-      <input type="checkbox" :checked="todo.done" @change="checkTodo(todo.id)"/>
+      <input type="checkbox" :checked="todo.done" @change="checkItem(todo.id)"/>
       <span>{{ todo.title }}</span>
       </label>
       <button class="btn btn-danger" @click="handleDelete(todo.id)">删除</button>
@@ -11,12 +11,15 @@
 <script>
 export default {
   name: 'MyItem',
-  props: ['todo', 'checkTodo', 'deleteTodo'],
+  props: ['todo'],
   methods: {
     handleDelete(id){
       if(confirm('确定删除吗？')){
-        this.deleteTodo(id)
+        this.$bus.$emit('deleteTodo',id)
       }
+    },
+    checkItem(id){
+      this.$bus.$emit('checkTodo',id);
     },
   }
 }

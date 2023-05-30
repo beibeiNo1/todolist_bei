@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <MyHeader @addTodo="addTodo"/>
-    <MyList :todos="todos" :checkTodo="checkTodo" :deleteTodo="deleteTodo"/>
+    <MyList :todos="todos"/>
     <MyFooter :todos="todos" @checkAllTodo="checkAllTodo" @clearAllTodo="clearAllTodo"/>
   </div>
 </template>
@@ -62,7 +62,11 @@ export default {
     clearAllTodo(){
       this.todos = this.todos.filter(item=>!item.done)
     },
-  }
+  },
+  mounted(){
+    this.$bus.$on('checkTodo',this.checkTodo)
+    this.$bus.$on('deleteTodo',this.deleteTodo)
+  },
 }
 </script>
 
